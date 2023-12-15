@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react"
 import Nav from "./components/Nav"
 import Footer from "./components/Footer"
+import ToDoCard from "./components/ToDoCard"
 import InputSearch from "./components/Form/InputSearch"
 import InputNewTodo from "./components/Form/InputNewTodo"
+import generateRandomString from "./helpers/randomString"
+
+interface Todos {
+  id: string,
+  todo: string,
+  status: string
+}
 
 function App() {
 
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState<Todos[]>([])
+  const [newTodo, setNewTodo] = useState("")
   const [addTodo, setAddTodo] = useState(false)
 
   useEffect(() => {
@@ -16,6 +25,23 @@ function App() {
     setAddTodo(prevState => {
       return !prevState
     })
+  }
+
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodo(event.target.value)
+  }
+
+  const insertNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const todo = {
+      id: generateRandomString(5),
+      todo: newTodo,
+      status: "incomplete"
+    }
+    setTodos([...todos, todo]);
+
+    setNewTodo("")
+    setAddTodo(false)
   }
 
   return (
@@ -30,10 +56,11 @@ function App() {
           {/* TO DO LIST */}
           <div className="max-w-[600px] w-full mx-auto bg-slate-50 py-6 px-5 mt-10 md:mt-12 lg:mt-14">
             <h2 className="font-medium text-lg md:text-xl text-center text-gray-700">To Do Today 😁👊</h2>
-            <form className={`${addTodo ? 'block' : 'hidden'} mt-7`}>
-              <InputNewTodo />
+            <form className={`${addTodo ? 'block' : 'hidden'} mt-7`} onSubmit={insertNewTodo}>
+              <InputNewTodo onInputChange={handleInput} />
             </form>
             <div className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
+              {todos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} />)}
             </div>
             <div className="flex gap-x-3">
               <button onClick={toggleAddTodo} type="button" className="py-2 px-3 md:px-4 bg-blue-500 font-medium text-sm md:text-base text-white rounded">Add Todo</button>
