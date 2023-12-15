@@ -17,7 +17,7 @@ function App() {
           {/* TO DO LIST */}
           <div className="max-w-[600px] w-full mx-auto bg-slate-50 py-6 px-5 mt-10 md:mt-12 lg:mt-14">
             <h2 className="font-medium text-lg md:text-xl text-center text-gray-700">To Do Today 😁👊</h2>
-            <form className="mt-7">
+            <form className="mt-7 hidden">
               <InputNewTodo />
             </form>
             <div className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
