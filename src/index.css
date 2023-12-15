@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+
+    a,
+    button {
+        cursor: pointer;
+        transition: 0.125s ease-in;
+    }
+
+    input {
+        outline: none;
+    }
+}
