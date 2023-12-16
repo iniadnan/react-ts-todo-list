@@ -75,12 +75,9 @@ function App() {
   }
 
   const onToggleStatus = (id: string) => {
-    setTodos(prevState =>
-      prevState.map(todo =>
-        todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo
-      )
-    )
-    updateValueLS(todos)
+    const newTodo = todos.map(todo => todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo)
+    setTodos(newTodo)
+    updateValueLS(newTodo)
   }
 
   return (

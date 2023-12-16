@@ -11,7 +11,6 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   }, [key, value]);
 
   const updateValue = (newValue: T) => {
-    console.log(newValue);
     setValue(newValue);
   };
 
