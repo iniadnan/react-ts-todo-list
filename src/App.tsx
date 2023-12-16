@@ -5,6 +5,7 @@ import ToDoCard from "./components/ToDoCard"
 import InputSearch from "./components/Form/InputSearch"
 import InputNewTodo from "./components/Form/InputNewTodo"
 import generateRandomString from "./helpers/randomString"
+import useLocalStorage from "./hooks/useLocalStorage"
 
 interface Todos {
   id: string,
@@ -18,9 +19,13 @@ function App() {
   const [todosSelected, setTodosSelected] = useState<Todos[]>([])
   const [newTodo, setNewTodo] = useState("")
   const [addTodo, setAddTodo] = useState(false)
+  const { value: valueLS, updateValue: updateValueLS } = useLocalStorage<Todos[]>('todo', []);
 
   useEffect(() => {
-  }, [])
+    if (valueLS instanceof Array) {
+      setTodos(valueLS)
+    }
+  }, [valueLS])
 
   const toggleAddTodo = () => {
     setAddTodo(prevState => {
@@ -40,6 +45,7 @@ function App() {
       status: "incomplete"
     }
     setTodos([...todos, todo]);
+    updateValueLS([...todos, todo]);
 
     setNewTodo("")
     setAddTodo(false)
@@ -47,6 +53,7 @@ function App() {
 
   const deleteTodo = () => {
     setTodos(todos.filter(todo => !todosSelected.some(todoSelected => todoSelected.id === todo.id)))
+    updateValueLS(todos.filter(todo => !todosSelected.some(todoSelected => todoSelected.id === todo.id)))
   }
 
   const onToggleSelect = (todo: { id: string, todo: string, status: string }) => {
@@ -64,6 +71,7 @@ function App() {
         todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo
       )
     )
+    updateValueLS(todos)
   }
 
   return (
