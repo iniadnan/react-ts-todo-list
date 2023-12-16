@@ -34,7 +34,7 @@ function ToDoCard(props: Props) {
                 </svg>
             </button>
             <h3 className="font-medium text-base text-gray-700 grow">{todo}</h3>
-            <button onClick={onToggleStatus} type="button" className={`${status == 'complete' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
+            <button onClick={onToggleStatus} type="button" className={`${status == 'completed' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
         </article>
     )
 }

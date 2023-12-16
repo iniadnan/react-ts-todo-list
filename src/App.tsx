@@ -59,7 +59,11 @@ function App() {
   }
 
   const onToggleStatus = (id: string) => {
-    console.log(id)
+    setTodos(prevState =>
+      prevState.map(todo =>
+        todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo
+      )
+    )
   }
 
   return (
