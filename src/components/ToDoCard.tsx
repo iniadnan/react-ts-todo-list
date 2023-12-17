@@ -18,15 +18,11 @@ function ToDoCard(props: Props) {
     const [checkIcon, setCheckIcon] = useState(false)
 
 
-    const onToggleSelect = () => {
+    const onToggleSelect = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setCheckIcon(prevState => {
             return !prevState
         })
-        toggleSelect({ id: id, todo: todo, status: status })
-    }
-
-    const onToggleStatus = () => {
-        toggleStatus(id)
+        toggleSelect(event)
     }
 
     return (
@@ -37,7 +33,7 @@ function ToDoCard(props: Props) {
                 </svg>
             </button>
             <input onChange={onChangeTodo} onBlur={onUpdateMouseOut} readOnly={!isReadOnly} type="text" className={`${isReadOnly ? 'bg-white' : 'bg-transparent'} font-medium text-base bg-transparent py-2 px-3 text-gray-700 grow`} title="Press Enter To Save Todo!" defaultValue={todo} />
-            <button onClick={onToggleStatus} type="button" className={`${status == 'completed' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
+            <button onClick={toggleStatus} type="button" className={`${status == 'completed' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
         </article>
     )
 }

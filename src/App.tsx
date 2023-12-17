@@ -109,7 +109,7 @@ function App() {
               <InputNewTodo onInputChange={handleInput} />
             </form>
             <form className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
-              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} onUpdateMouseOut={() => updateNewTodo(todo.id)} isReadOnly={isReadOnly} onChangeTodo={handleInput} toggleSelect={onToggleSelect} toggleStatus={onToggleStatus} />)}
+              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} onUpdateMouseOut={() => updateNewTodo(todo.id)} isReadOnly={isReadOnly} onChangeTodo={handleInput} toggleSelect={() => onToggleSelect(todo)} toggleStatus={() => onToggleStatus(todo.id)} />)}
             </form>
             <div className="flex gap-x-3">
               <button onClick={toggleAddTodo} type="button" className="py-2 px-3 md:px-4 bg-blue-500 font-medium text-sm md:text-base text-white rounded">Add Todo</button>
