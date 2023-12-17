@@ -3,14 +3,16 @@ import { useState } from "react"
 interface Props {
     id: string,
     todo: string,
-    status: string
-    toggleSelect: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    status: string,
+    onUpdateMouseOut: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
+    onChangeTodo: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    toggleSelect: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     toggleStatus: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 function ToDoCard(props: Props) {
 
-    const { id, todo, status, toggleSelect, toggleStatus } = props
+    const { id, todo, status, onUpdateMouseOut, onChangeTodo, toggleSelect, toggleStatus } = props
 
     const [checkIcon, setCheckIcon] = useState(false)
 
@@ -33,7 +35,7 @@ function ToDoCard(props: Props) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
             </button>
-            <h3 className="font-medium text-base text-gray-700 grow">{todo}</h3>
+            <input onChange={onChangeTodo} onBlur={onUpdateMouseOut} type="text" className="font-medium text-base bg-transparent py-2 px-3 text-gray-700 grow" title="Press Enter To Save Todo!" defaultValue={todo} />
             <button onClick={onToggleStatus} type="button" className={`${status == 'completed' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
         </article>
     )

@@ -60,6 +60,12 @@ function App() {
     setAddTodo(false)
   }
 
+  const updateNewTodo = (id: string) => {
+    const updateTodos = todos.map(todo => todo.id === id ? { ...todo, todo: newTodo } : todo)
+    setTodos(updateTodos)
+    updateValueLS(updateTodos)
+  }
+
   const deleteTodo = () => {
     setTodos(todos.filter(todo => !todosSelected.some(todoSelected => todoSelected.id === todo.id)))
     updateValueLS(todos.filter(todo => !todosSelected.some(todoSelected => todoSelected.id === todo.id)))
@@ -75,9 +81,9 @@ function App() {
   }
 
   const onToggleStatus = (id: string) => {
-    const newTodo = todos.map(todo => todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo)
-    setTodos(newTodo)
-    updateValueLS(newTodo)
+    const newTodos = todos.map(todo => todo.id === id ? { ...todo, status: todo.status === 'completed' ? 'incomplete' : 'completed' } : todo)
+    setTodos(newTodos)
+    updateValueLS(newTodos)
   }
 
   return (
@@ -95,9 +101,9 @@ function App() {
             <form className={`${addTodo ? 'block' : 'hidden'} mt-7`} onSubmit={insertNewTodo}>
               <InputNewTodo onInputChange={handleInput} />
             </form>
-            <div className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
-              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} toggleSelect={onToggleSelect} toggleStatus={onToggleStatus} />)}
-            </div>
+            <form className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
+              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} onUpdateMouseOut={() => updateNewTodo(todo.id)} onChangeTodo={handleInput} toggleSelect={onToggleSelect} toggleStatus={onToggleStatus} />)}
+            </form>
             <div className="flex gap-x-3">
               <button onClick={toggleAddTodo} type="button" className="py-2 px-3 md:px-4 bg-blue-500 font-medium text-sm md:text-base text-white rounded">Add Todo</button>
               <button type="button" className={`${filteredTodos.length > 0 ? 'inline-block' : 'hidden'} py-2 px-3 md:px-4 font-medium text-base text-gray-700 rounded`}>Edit Todo</button>
