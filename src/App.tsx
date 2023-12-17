@@ -18,6 +18,7 @@ function App() {
   const [todos, setTodos] = useState<Todos[]>([])
   const [todosSelected, setTodosSelected] = useState<Todos[]>([])
   const [newTodo, setNewTodo] = useState("")
+  const [isReadOnly, setIsReadOnly] = useState(false)
   const [addTodo, setAddTodo] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const { value: valueLS, updateValue: updateValueLS } = useLocalStorage<Todos[]>('todo', []);
@@ -86,6 +87,12 @@ function App() {
     updateValueLS(newTodos)
   }
 
+  const editTodo = () => {
+    setIsReadOnly(prevState => {
+      return !prevState
+    })
+  }
+
   return (
     <>
       <Nav />
@@ -102,11 +109,11 @@ function App() {
               <InputNewTodo onInputChange={handleInput} />
             </form>
             <form className="flex flex-col gap-y-4 mt-8 mb-8 md:mb-10 lg:mb-12">
-              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} onUpdateMouseOut={() => updateNewTodo(todo.id)} onChangeTodo={handleInput} toggleSelect={onToggleSelect} toggleStatus={onToggleStatus} />)}
+              {filteredTodos.map((todo) => <ToDoCard key={todo.id} id={todo.id} todo={todo.todo} status={todo.status} onUpdateMouseOut={() => updateNewTodo(todo.id)} isReadOnly={isReadOnly} onChangeTodo={handleInput} toggleSelect={onToggleSelect} toggleStatus={onToggleStatus} />)}
             </form>
             <div className="flex gap-x-3">
               <button onClick={toggleAddTodo} type="button" className="py-2 px-3 md:px-4 bg-blue-500 font-medium text-sm md:text-base text-white rounded">Add Todo</button>
-              <button type="button" className={`${filteredTodos.length > 0 ? 'inline-block' : 'hidden'} py-2 px-3 md:px-4 font-medium text-base text-gray-700 rounded`}>Edit Todo</button>
+              <button onClick={editTodo} type="button" className={`${filteredTodos.length > 0 ? 'inline-block' : 'hidden'} py-2 px-3 md:px-4 font-medium text-base text-gray-700 rounded`}>Edit Todo</button>
               <button onClick={deleteTodo} type="button" className={`${filteredTodos.length > 0 ? 'inline-block' : 'hidden'} font-medium text-sm md:text-base text-rose-700 border-b border-rose-700 ml-auto`}>Delete Selected Todos</button>
             </div>
           </div>

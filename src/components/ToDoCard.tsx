@@ -4,6 +4,7 @@ interface Props {
     id: string,
     todo: string,
     status: string,
+    isReadOnly: boolean,
     onUpdateMouseOut: (event: React.FocusEvent<HTMLInputElement, Element>) => void,
     onChangeTodo: (event: React.ChangeEvent<HTMLInputElement>) => void,
     toggleSelect: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -12,7 +13,7 @@ interface Props {
 
 function ToDoCard(props: Props) {
 
-    const { id, todo, status, onUpdateMouseOut, onChangeTodo, toggleSelect, toggleStatus } = props
+    const { id, todo, status, isReadOnly, onUpdateMouseOut, onChangeTodo, toggleSelect, toggleStatus } = props
 
     const [checkIcon, setCheckIcon] = useState(false)
 
@@ -35,7 +36,7 @@ function ToDoCard(props: Props) {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
             </button>
-            <input onChange={onChangeTodo} onBlur={onUpdateMouseOut} type="text" className="font-medium text-base bg-transparent py-2 px-3 text-gray-700 grow" title="Press Enter To Save Todo!" defaultValue={todo} />
+            <input onChange={onChangeTodo} onBlur={onUpdateMouseOut} readOnly={!isReadOnly} type="text" className={`${isReadOnly ? 'bg-white' : 'bg-transparent'} font-medium text-base bg-transparent py-2 px-3 text-gray-700 grow`} title="Press Enter To Save Todo!" defaultValue={todo} />
             <button onClick={onToggleStatus} type="button" className={`${status == 'completed' ? 'bg-green-600' : 'bg-gray-400'} inline-block py-2 px-4 rounded-md text-xs text-white font-medium flex-none uppercase`}>{status}</button>
         </article>
     )
